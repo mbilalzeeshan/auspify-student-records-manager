@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusDesk | Student Records Manager</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">&#9646;</span>
+        <div>
+          <h1>CampusDesk</h1>
+          <p class="tagline">Student Records Manager</p>
+        </div>
+      </div>
+      <button id="addStudentBtn" class="btn btn-primary" type="button">+ Add Student</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="toolbar" aria-label="Search and stats">
+      <div class="search-box">
+        <label class="visually-hidden" for="searchInput">Search students</label>
+        <input id="searchInput" type="search" placeholder="Search by name, email, or course" autocomplete="off" />
+      </div>
+      <p id="recordCount" class="record-count" aria-live="polite"></p>
+    </section>
+
+    <section class="table-card">
+      <div class="table-scroll">
+        <table id="studentsTable">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Course</th>
+              <th scope="col">Enrolled</th>
+              <th scope="col" class="actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="studentsBody">
+            <!-- Rows are rendered by app.js -->
+          </tbody>
+        </table>
+      </div>
+      <p id="emptyState" class="empty-state" hidden>No students found. Add a student or clear your search.</p>
+    </section>
+  </main>
+
+  <!-- Add / Edit modal -->
+  <div id="studentModal" class="modal-backdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add Student</h2>
+        <button class="icon-btn" id="closeModalBtn" type="button" aria-label="Close">&times;</button>
+      </div>
+      <form id="studentForm" novalidate>
+        <input type="hidden" id="studentId" />
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" type="text" required placeholder="e.g. Ahmed Khan" />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" required placeholder="e.g. ahmed.khan@example.com" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" type="tel" required placeholder="e.g. +92 300 1234567" />
+          </div>
+          <div class="field">
+            <label for="course">Course</label>
+            <input id="course" type="text" required list="courseList" placeholder="e.g. Computer Science" />
+            <datalist id="courseList">
+              <option value="Computer Science"></option>
+              <option value="Business Administration"></option>
+              <option value="Data Science"></option>
+              <option value="Electrical Engineering"></option>
+              <option value="Psychology"></option>
+              <option value="Media Studies"></option>
+            </datalist>
+          </div>
+          <div class="field">
+            <label for="enrollmentDate">Enrollment date</label>
+            <input id="enrollmentDate" type="date" required />
+          </div>
+        </div>
+        <p id="formError" class="form-error" hidden></p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveStudentBtn">Save Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete confirmation modal -->
+  <div id="deleteModal" class="modal-backdrop" hidden>
+    <div class="modal modal-small" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+      <h2 id="deleteTitle">Delete student?</h2>
+      <p id="deleteText" class="delete-text"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="cancelDeleteBtn">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail side panel -->
+  <div id="detailPanel" class="panel-backdrop" hidden>
+    <aside class="panel" role="dialog" aria-modal="true" aria-labelledby="detailName">
+      <div class="panel-header">
+        <h2 id="detailName">Student</h2>
+        <button class="icon-btn" id="closePanelBtn" type="button" aria-label="Close details">&times;</button>
+      </div>
+      <dl class="detail-list">
+        <div><dt>Email</dt><dd id="detailEmail"></dd></div>
+        <div><dt>Phone</dt><dd id="detailPhone"></dd></div>
+        <div><dt>Course</dt><dd id="detailCourse"></dd></div>
+        <div><dt>Enrolled</dt><dd id="detailEnrolled"></dd></div>
+        <div><dt>Student ID</dt><dd id="detailId"></dd></div>
+      </dl>
+      <div class="panel-actions">
+        <button type="button" class="btn btn-secondary" id="editFromPanelBtn">Edit</button>
+        <button type="button" class="btn btn-danger" id="deleteFromPanelBtn">Delete</button>
+      </div>
+    </aside>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
